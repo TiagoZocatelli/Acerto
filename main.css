@@ -8,20 +8,16 @@ body {
 }
 
 #container {
-    width: 90%;
-    max-width: 600px;
-    margin: 20px auto;
+    max-width: 100%; /* Alterado para ocupar a largura total da tela */
+    margin: 20px;
     padding: 20px;
     border-radius: 10px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-input[type="text"],
-input[type="date"],
-select,
-textarea {
-    width: 100%;
+input[type="text"], input[type="date"], select, textarea { /* Incluído o textarea */
+    width: 100%; /* Alterado para ocupar a largura total da tela */
     margin-bottom: 10px;
     padding: 10px;
     border: 1px solid #ccc;
@@ -30,20 +26,15 @@ textarea {
 }
 
 button {
+    width: 100%; /* Alterado para ocupar a largura total da tela */
     background-color: #007bff; /* Azul */
     color: white;
-    padding: 10px 20px;
+    padding: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
     font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-button:hover {
-    background-color: #0056b3; /* Azul mais escuro */
 }
 
 #listaCupons {
@@ -60,9 +51,8 @@ button:hover {
 }
 
 #relatorio-container {
-    width: 90%;
-    max-width: 600px;
-    margin: 20px auto;
+    max-width: 100%; /* Alterado para ocupar a largura total da tela */
+    margin: 20px;
     padding: 20px;
     border-radius: 10px;
     background-color: #f9f9f9;
@@ -92,25 +82,13 @@ strong {
 }
 
 .imprimir-botao {
+    width: 100%; /* Alterado para ocupar a largura total da tela */
     background-color: #007bff; /* Azul */
     color: white;
-    padding: 10px 20px;
+    padding: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    display: block;
-    margin: 20px auto;
+    margin: 20px;
     font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.imprimir-botao:hover {
-    background-color: #0056b3; /* Azul mais escuro */
-}
-
-@media screen and (max-width: 480px) {
-    #container {
-        width: 95%;
-    }
 }
