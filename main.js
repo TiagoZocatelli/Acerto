@@ -37,9 +37,8 @@ function adicionarCupom() {
     // Adiciona o cupom à lista de cupons
     cupons.push({ nomeFuncionario, data, tipoCupom, valor, chaveCupom, valorCombustivel, chaveCupomCombustivel });
 
-    // Atualiza o valor total e o valor total do combustível
+    // Atualiza o valor total
     valorTotal += valor;
-    valorCombustivelTotal += valorCombustivel;
 
     // Limpa os campos de entrada
     document.getElementById('valor').value = '';
@@ -50,7 +49,6 @@ function adicionarCupom() {
     // Atualiza a lista de cupons exibida
     atualizarListaCupons();
 }
-
 
 function atualizarListaCupons() {
     let listaCupons = document.getElementById('listaCupons');
@@ -72,8 +70,7 @@ function atualizarListaCupons() {
 
 function gerarRelatorio(tipo) {
     // Verifica se há cupons registrados
-    const cuponsAtivos = cupons.filter(cupom => cupom.valor !== 0);
-    if (cuponsAtivos.length === 0) {
+    if (cupons.length === 0) {
         alert('Não há cupons registrados para gerar o relatório.');
         return;
     }
@@ -100,7 +97,7 @@ function gerarRelatorio(tipo) {
 
     if (tipo === 'detalhado') {
         const listaCupons = document.createElement('ul');
-        cuponsAtivos.forEach(cupom => {
+        cupons.forEach(cupom => {
             const cupomItem = document.createElement('li');
             cupomItem.innerHTML = `
                 <div><strong>Data:</strong> ${cupom.data}</div>
@@ -110,18 +107,24 @@ function gerarRelatorio(tipo) {
                 ${cupom.chaveCupomCombustivel ? `<div><strong>Chave do Cupom do Combustível:</strong> ${cupom.chaveCupomCombustivel}</div>` : ''}
             `;
             listaCupons.appendChild(cupomItem);
+            listaCupons.appendChild(document.createElement('br')); // Adiciona um espaço entre os cupons
         });
         relatorioContainer.appendChild(listaCupons);
     }
 
     const totalCupons = document.createElement('p');
-    const totalCuponsValor = cuponsAtivos.reduce((total, cupom) => total + cupom.valor, 0);
+    const totalCuponsValor = cupons.reduce((total, cupom) => total + cupom.valor, 0);
     totalCupons.textContent = `Total dos Cupons: R$ ${totalCuponsValor.toFixed(2)}`;
     relatorioContainer.appendChild(totalCupons);
 
-    if (tipo === 'resumido') {
+    if (tipo === 'detalhado') {
         const totalCombustivel = document.createElement('p');
-        const totalCombustivelValor = cuponsAtivos.reduce((total, cupom) => total + cupom.valorCombustivel, 0);
+        const totalCombustivelValor = cupons.reduce((total, cupom) => total + cupom.valorCombustivel, 0);
+        totalCombustivel.textContent = `Total de Combustível: R$ ${totalCombustivelValor.toFixed(2)}`;
+        relatorioContainer.appendChild(totalCombustivel);
+    } else if (tipo === 'resumido') {
+        const totalCombustivel = document.createElement('p');
+        const totalCombustivelValor = cupons.reduce((total, cupom) => total + cupom.valorCombustivel, 0);
         totalCombustivel.textContent = `Total de Combustível (Convênio): R$ ${totalCombustivelValor.toFixed(2)}`;
         relatorioContainer.appendChild(totalCombustivel);
     }
@@ -151,6 +154,7 @@ function gerarRelatorio(tipo) {
     };
     relatorioContainer.appendChild(imprimirBotao);
 }
+
 function mostrarCampos() {
     let tipoCupom = document.getElementById('tipoCupom').value;
     let camposCupomNormal = document.getElementById('camposCupomNormal');
@@ -174,51 +178,3 @@ function prepararExportacaoPDF() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    const scanButton = document.getElementById('scanButton');
-    const resultadoDiv = document.getElementById('resultado');
-
-    // Função para escanear o código QR
-    scanButton.addEventListener('click', () => {
-        const video = document.createElement('video');
-
-        // Captura o vídeo da câmera
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-            .then((stream) => {
-                video.srcObject = stream;
-                video.play();
-                video.style.display = 'none'; // Esconde o vídeo
-                document.body.appendChild(video); // Adiciona o vídeo ao corpo do documento
-            })
-            .catch((err) => {
-                console.error('Não foi possível acessar a câmera: ', err);
-            });
-
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-
-        // A cada intervalo de tempo, escaneia o código QR
-        const scanInterval = setInterval(() => {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const code = jsQR(imageData.data, canvas.width, canvas.height);
-            if (code) {
-                // Verifica se o código QR contém a chave de 44 dígitos
-                const chaveCupomInput = document.getElementById('chaveCupom');
-                if (code.data.length === 44) {
-                    chaveCupomInput.value = code.data; // Preenche o campo de chave de cupom
-                    resultadoDiv.innerText = `Chave do Cupom: ${code.data}`;
-                    clearInterval(scanInterval); // Para o escaneamento quando o código é encontrado
-                    video.srcObject.getTracks().forEach(track => track.stop()); // Para a câmera
-                    video.remove(); // Remove o vídeo do DOM
-                } else {
-                    alert('O código QR não contém uma chave de cupom válida.');
-                }
-            }
-        }, 1000);
-    });
-
-    // Adicione aqui as outras funções que você deseja integrar ao carregamento do DOM
-});

@@ -8,6 +8,7 @@ body {
 }
 
 #container {
+    width: 90%;
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
@@ -16,8 +17,11 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-input[type="text"], input[type="date"], select {
-    width: calc(100% - 20px);
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
     margin-bottom: 10px;
     padding: 10px;
     border: 1px solid #ccc;
@@ -34,6 +38,8 @@ button {
     cursor: pointer;
     margin-top: 10px;
     font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 button:hover {
@@ -54,6 +60,7 @@ button:hover {
 }
 
 #relatorio-container {
+    width: 90%;
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
@@ -94,8 +101,16 @@ strong {
     display: block;
     margin: 20px auto;
     font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .imprimir-botao:hover {
     background-color: #0056b3; /* Azul mais escuro */
+}
+
+@media screen and (max-width: 480px) {
+    #container {
+        width: 95%;
+    }
 }
