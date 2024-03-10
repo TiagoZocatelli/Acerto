@@ -81,14 +81,30 @@ strong {
     font-weight: bold;
 }
 
-.imprimir-botao {
-    width: 100%; /* Alterado para ocupar a largura total da tela */
-    background-color: #007bff; /* Azul */
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 20px;
-    font-size: 16px;
+/* main.css */
+
+/* Adicione as regras de estilo dentro de uma media query para dispositivos móveis */
+@media only screen and (max-width: 600px) {
+    #relatorio-container {
+        text-align: center; /* Centraliza o conteúdo */
+    }
+
+    .imprimir-botao {
+        width: auto; /* Defina a largura automática para o botão */
+        margin: 20px auto; /* Centraliza o botão na horizontal */
+        background-color: #007bff; /* Azul */
+        color: white;
+        padding: 15px; /* Aumenta o preenchimento para tornar o botão mais visível */
+        border: none;
+        border-radius: 8px; /* Aumenta o raio da borda para um visual mais suave */
+        cursor: pointer;
+        font-size: 18px; /* Aumenta o tamanho do texto */
+        font-weight: bold; /* Torna o texto em negrito para maior destaque */
+        text-transform: uppercase; /* Transforma o texto em maiúsculas para maior ênfase */
+        transition: background-color 0.3s ease; /* Adiciona uma transição suave na mudança de cor de fundo */
+    }
+
+    .imprimir-botao:hover {
+        background-color: #0056b3; /* Azul mais escuro ao passar o mouse */
+    }
 }
